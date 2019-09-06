@@ -1,15 +1,36 @@
 package com.arnab.spring.swagger.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Represents a single contact.")
 public class Contact {
 
+	@ApiModelProperty(notes = "The House Number.")
 	private String houseNumber;
+	
+	@ApiModelProperty(notes = "The name of the building.")
 	private String buildingName;
+	
+	@ApiModelProperty(notes = "The name of the road or the locality.")
 	private String roadOrLocality;
+	
+	@ApiModelProperty(notes = "The name of the road or the locality 2.")
 	private String roadOrLocality2;
+	
+	@ApiModelProperty(notes = "The name of the area.")
 	private String area;
+	
+	@ApiModelProperty(notes = "The Pincode.")
 	private String pincode;
+	
+	@ApiModelProperty(notes = "The name of the city.")
 	private String city;
+	
+	@ApiModelProperty(notes = "The name of the state.")
 	private String state;
+	
+	@ApiModelProperty(notes = "The name of the country.")
 	private String country;
 
 	public Contact() {
