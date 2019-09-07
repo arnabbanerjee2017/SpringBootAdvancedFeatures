@@ -15,14 +15,6 @@ public class CustomAnnotationModel {
 		values = new ArrayList<>();
 	}
 
-	public CustomAnnotationModel(Integer id, String value, List<String> values, String level) {
-		super();
-		this.id = id;
-		this.value = value;
-		this.values = values;
-		this.level = level;
-	}
-
 	public Integer getId() {
 		return id;
 	}

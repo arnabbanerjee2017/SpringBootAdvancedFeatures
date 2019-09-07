@@ -1,13 +1,31 @@
 package com.arnab.java.tutorial.annotations.custom.models;
 
-public class FieldLevel {
-	private CustomAnnotationModel customAnnotationModel;
+import java.util.ArrayList;
+import java.util.List;
 
-	public CustomAnnotationModel getCustomAnnotationModel() {
+public class FieldLevel {
+	private List<CustomAnnotationModel> customAnnotationModel;
+	private List<ArnabFieldLevelModel> arnabFieldLevelModel;
+
+	public FieldLevel() {
+		customAnnotationModel = new ArrayList<>();
+		arnabFieldLevelModel = new ArrayList<>();
+	}
+
+	public List<CustomAnnotationModel> getCustomAnnotationModel() {
 		return customAnnotationModel;
 	}
 
-	public void setCustomAnnotationModel(CustomAnnotationModel customAnnotationModel) {
+	public void setCustomAnnotationModel(List<CustomAnnotationModel> customAnnotationModel) {
 		this.customAnnotationModel = customAnnotationModel;
 	}
+
+	public List<ArnabFieldLevelModel> getArnabFieldLevelModel() {
+		return arnabFieldLevelModel;
+	}
+
+	public void setArnabFieldLevelModel(List<ArnabFieldLevelModel> arnabFieldLevelModel) {
+		this.arnabFieldLevelModel = arnabFieldLevelModel;
+	}
+
 }

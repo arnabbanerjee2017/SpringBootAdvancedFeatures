@@ -1,20 +1,14 @@
 package com.arnab.java.tutorial.annotations.custom.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomAnnotationDemoObject {
 
 	private ClassLevel classLevel;
-	private List<FieldLevel> fieldLevel;
-	private List<ConstructorLevel> constructorLevel;
-	private List<MethodLevel> methodLevel;
-
-	public CustomAnnotationDemoObject() {
-		fieldLevel = new ArrayList<>();
-		constructorLevel = new ArrayList<>();
-		methodLevel = new ArrayList<>();
-	}
+	private FieldLevel fieldLevel;
+	private ConstructorLevel constructorLevel;
+	private MethodLevel methodLevel;
 
 	public ClassLevel getClassLevel() {
 		return classLevel;
@@ -24,27 +18,27 @@ public class CustomAnnotationDemoObject {
 		this.classLevel = classLevel;
 	}
 
-	public List<FieldLevel> getFieldLevel() {
+	public FieldLevel getFieldLevel() {
 		return fieldLevel;
 	}
 
-	public void setFieldLevel(List<FieldLevel> fieldLevel) {
+	public void setFieldLevel(FieldLevel fieldLevel) {
 		this.fieldLevel = fieldLevel;
 	}
 
-	public List<ConstructorLevel> getConstructorLevel() {
+	public ConstructorLevel getConstructorLevel() {
 		return constructorLevel;
 	}
 
-	public void setConstructorLevel(List<ConstructorLevel> constructorLevel) {
+	public void setConstructorLevel(ConstructorLevel constructorLevel) {
 		this.constructorLevel = constructorLevel;
 	}
 
-	public List<MethodLevel> getMethodLevel() {
+	public MethodLevel getMethodLevel() {
 		return methodLevel;
 	}
 
-	public void setMethodLevel(List<MethodLevel> methodLevel) {
+	public void setMethodLevel(MethodLevel methodLevel) {
 		this.methodLevel = methodLevel;
 	}
 

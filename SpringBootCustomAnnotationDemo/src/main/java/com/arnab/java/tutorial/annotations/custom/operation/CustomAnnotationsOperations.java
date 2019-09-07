@@ -3,6 +3,10 @@ package com.arnab.java.tutorial.annotations.custom.operation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.arnab.java.tutorial.annotations.custom.ArnabClassLevel;
 import com.arnab.java.tutorial.annotations.custom.ArnabConstructorLevel;
@@ -10,86 +14,130 @@ import com.arnab.java.tutorial.annotations.custom.ArnabFieldLevel;
 import com.arnab.java.tutorial.annotations.custom.ArnabMethodLevel;
 import com.arnab.java.tutorial.annotations.custom.CustomAnnotation;
 import com.arnab.java.tutorial.annotations.custom.CustomAnnotationDemo;
+import com.arnab.java.tutorial.annotations.custom.models.ArnabClassLevelModel;
+import com.arnab.java.tutorial.annotations.custom.models.ArnabConstructorLevelModel;
+import com.arnab.java.tutorial.annotations.custom.models.ArnabFieldLevelModel;
+import com.arnab.java.tutorial.annotations.custom.models.ArnabMethodLevelModel;
+import com.arnab.java.tutorial.annotations.custom.models.ClassLevel;
+import com.arnab.java.tutorial.annotations.custom.models.ConstructorLevel;
+import com.arnab.java.tutorial.annotations.custom.models.CustomAnnotationDemoObject;
+import com.arnab.java.tutorial.annotations.custom.models.CustomAnnotationModel;
+import com.arnab.java.tutorial.annotations.custom.models.FieldLevel;
+import com.arnab.java.tutorial.annotations.custom.models.MethodLevel;
 
+@Component
 public class CustomAnnotationsOperations {
 	
-	public Class<? extends CustomAnnotationDemo> getClass(CustomAnnotationDemo object) {
-		return object.getClass();
+	@Autowired
+	private CustomAnnotationDemoObject output;
+	
+	public CustomAnnotationDemoObject getCustomAnnotationDemoObject(CustomAnnotationDemo demo) {
+		Class<? extends CustomAnnotationDemo> demoClass = demo.getClass();
+		this.operateCustomAnnotations(demoClass);
+		this.operateArnabClassLevel(demoClass);
+		this.operateArnabFieldLevel(demoClass);
+		this.operateArnabConstructorLevel(demoClass);
+		this.operateArnabMethodLevel(demoClass);
+		return output;
 	}
     
     public void operateCustomAnnotations(Class<? extends CustomAnnotationDemo> demoClass) {
     	CustomAnnotation customAnnotation = (CustomAnnotation) demoClass.getAnnotation(CustomAnnotation.class);
-        System.out.println("CustomAnnotation type: " + customAnnotation.annotationType());
-        System.out.println("CustomAnnotation value: " + customAnnotation.value());
-        System.out.println("CustomAnnotation id: " + customAnnotation.id());
-        for(String value: customAnnotation.values()) {
-            System.out.println("CustomAnnotation values: " + value);
-        }
-        System.out.println("CustomAnnotation level: " + customAnnotation.level());
-        System.out.println();
+        
+        CustomAnnotationModel model = new CustomAnnotationModel();
+        model.setId(customAnnotation.id());
+        model.setLevel(customAnnotation.level());
+        model.setValue(customAnnotation.value());
+        model.setValues(Arrays.asList(customAnnotation.values()));
+        
+        ClassLevel classLevel = new ClassLevel();
+        classLevel.setCustomAnnotationModel(model);
+        
+        output.setClassLevel(classLevel);
     }
     
     public void operateArnabClassLevel(Class<? extends CustomAnnotationDemo> demoClass) {
     	 ArnabClassLevel arnabClassLevel = (ArnabClassLevel) demoClass.getAnnotation(ArnabClassLevel.class);
-         System.out.println("ArnabClassLevel type: " + arnabClassLevel.annotationType());
-         System.out.println("ArnabClassLevel value: " + arnabClassLevel.value());
-         System.out.println();
+         
+         ArnabClassLevelModel model = new ArnabClassLevelModel();
+         model.setClassMarker(demoClass);
+         model.setValue(arnabClassLevel.value());
+         output.getClassLevel().setArnabClassLevelModel(model);
+         
     }
     
     public void operateArnabFieldLevel(Class<? extends CustomAnnotationDemo> demoClass) {
     	Field[] fields = demoClass.getDeclaredFields();
+    	
+    	FieldLevel fieldLevel = new FieldLevel();
+    	
         for(Field field: fields) {
         	ArnabFieldLevel arnabFieldLevel = field.getAnnotation(ArnabFieldLevel.class);
-        	CustomAnnotation customAnnotationFieldLevel = field.getAnnotation(CustomAnnotation.class);            
-            System.out.println("CustomAnnotation Field Level type: " + customAnnotationFieldLevel.annotationType());
-            System.out.println("CustomAnnotation Field Level value: " + customAnnotationFieldLevel.value());
-            System.out.println("CustomAnnotation Field Level id: " + customAnnotationFieldLevel.id());
-            for(String value: customAnnotationFieldLevel.values()) {
-                System.out.println("CustomAnnotation Field Level values: " + value);
-            }
-            System.out.println("CustomAnnotation Field Level level: " + customAnnotationFieldLevel.level());
-            System.out.println("ArnabFieldLevel type: " + arnabFieldLevel.annotationType());
-            System.out.println("ArnabFieldLevel value: " + arnabFieldLevel.value());
+        	CustomAnnotation customAnnotationFieldLevel = field.getAnnotation(CustomAnnotation.class); 
         	
+            CustomAnnotationModel model = new CustomAnnotationModel();
+            model.setId(customAnnotationFieldLevel.id());
+            model.setLevel(customAnnotationFieldLevel.level());
+            model.setValue(customAnnotationFieldLevel.value());
+            model.setValues(Arrays.asList(customAnnotationFieldLevel.values()));
+            fieldLevel.getCustomAnnotationModel().add(model);
+            
+            ArnabFieldLevelModel fieldModel = new ArnabFieldLevelModel();
+            fieldModel.setValue(arnabFieldLevel.value());
+            fieldLevel.getArnabFieldLevelModel().add(fieldModel);
+            
         }
-        System.out.println();
+        
+        output.setFieldLevel(fieldLevel);
     }
     
     @SuppressWarnings("unchecked")
 	public void operateArnabConstructorLevel(Class<? extends CustomAnnotationDemo> demoClass) {    	 
     	 Constructor<CustomAnnotationDemo>[] constructors = (Constructor<CustomAnnotationDemo>[]) demoClass.getConstructors();
+    	 ConstructorLevel constructorLevel = new ConstructorLevel();    	 
+    	 
     	 for(Constructor<CustomAnnotationDemo> constructor: constructors) {
     		 CustomAnnotation customAnnotationConstructorLevel = constructor.getAnnotation(CustomAnnotation.class);
-    		 ArnabConstructorLevel arnabConstructorLevel =  constructor.getAnnotation(ArnabConstructorLevel.class);    		 
-    		 System.out.println("CustomAnnotation Constructor Level type: " + customAnnotationConstructorLevel.annotationType());
-             System.out.println("CustomAnnotation Constructor Level value: " + customAnnotationConstructorLevel.value());
-             System.out.println("CustomAnnotation Constructor Level id: " + customAnnotationConstructorLevel.id());
-             for(String value: customAnnotationConstructorLevel.values()) {
-                 System.out.println("CustomAnnotation Constructor Level values: " + value);
-             }
-             System.out.println("CustomAnnotation Constructor Level level: " + customAnnotationConstructorLevel.level());             
-             System.out.println("ArnabConstructorLevel type: " + arnabConstructorLevel.annotationType());
-             System.out.println("ArnabConstructorLevel value: " + arnabConstructorLevel.value());    		 
+    		 ArnabConstructorLevel arnabConstructorLevel =  constructor.getAnnotation(ArnabConstructorLevel.class);    		  
+             
+             CustomAnnotationModel model = new CustomAnnotationModel();
+             model.setId(customAnnotationConstructorLevel.id());
+             model.setLevel(customAnnotationConstructorLevel.level());
+             model.setValue(customAnnotationConstructorLevel.value());
+             model.setValues(Arrays.asList(customAnnotationConstructorLevel.values()));
+             constructorLevel.getCustomAnnotationModel().add(model);             
+             
+             ArnabConstructorLevelModel constructorModel = new ArnabConstructorLevelModel();
+             constructorModel.setValue(arnabConstructorLevel.value());
+             constructorLevel.getConstructorLevelModel().add(constructorModel);
     	 }
-         System.out.println();
+        
+         
+         output.setConstructorLevel(constructorLevel);
     }
     
     public void operateArnabMethodLevel(Class<? extends CustomAnnotationDemo> demoClass) {
     	Method[] methods = demoClass.getDeclaredMethods();
+    	
+    	MethodLevel methodLevel = new MethodLevel();
+    	
     	for(Method method: methods) {
     		CustomAnnotation customAnnotationMethodLevel = method.getAnnotation(CustomAnnotation.class);
     		ArnabMethodLevel arnabMethodLevel = method.getAnnotation(ArnabMethodLevel.class);
-    		System.out.println("CustomAnnotation Method Level type: " + customAnnotationMethodLevel.annotationType());
-            System.out.println("CustomAnnotation Method Level value: " + customAnnotationMethodLevel.value());
-            System.out.println("CustomAnnotation Method Level id: " + customAnnotationMethodLevel.id());
-            for(String value: customAnnotationMethodLevel.values()) {
-                System.out.println("CustomAnnotation Method Level values: " + value);
-            }
-            System.out.println("CustomAnnotation Method Level level: " + customAnnotationMethodLevel.level());
-            System.out.println("ArnabMethodLevel type: " + arnabMethodLevel.annotationType());
-            System.out.println("ArnabMethodLevel value: " + arnabMethodLevel.value());
+            
+            CustomAnnotationModel model = new CustomAnnotationModel();
+            model.setId(customAnnotationMethodLevel.id());
+            model.setLevel(customAnnotationMethodLevel.level());
+            model.setValue(customAnnotationMethodLevel.value());
+            model.setValues(Arrays.asList(customAnnotationMethodLevel.values()));
+            methodLevel.getCustomAnnotationModel().add(model);
+            
+            ArnabMethodLevelModel methodModel = new ArnabMethodLevelModel();
+            methodModel.setValue(arnabMethodLevel.value());
+            methodLevel.getMethodLevelModel().add(methodModel);
     	}
-        System.out.println();
+        
+        output.setMethodLevel(methodLevel);
     }
 	
 }
