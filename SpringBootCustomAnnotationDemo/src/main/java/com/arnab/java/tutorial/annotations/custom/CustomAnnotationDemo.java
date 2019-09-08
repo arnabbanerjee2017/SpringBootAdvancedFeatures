@@ -9,6 +9,34 @@
 
 package com.arnab.java.tutorial.annotations.custom;
 
+/**
+ * This class is the base class to demonstrate the custom annotations.
+ * The annotations used here are - 
+ * 		-> @CustomAnnotation
+ * 		-> @ArnabClassLevel
+ * 		-> @ArnabFieldLevel
+ * 		-> @ArnabConstructorLevel
+ * 		-> @ArnabMethodLevel
+ * 
+ * @CustomAnnotation - This annotation is applied at all levels - Class Level, Field Level, Constructor Level, and Method Level.
+ * For details, please refer to CustomAnnotation.java. At Class Level, the default values of the elements are assigned. At Field Level,
+ * please see the values as defined below just above the fields declarations. Like for 'private Integer id', the elements
+ * of the annotation @CustomAnnotation are 'value = "It is the ID of the person.", id = 2, values = {"Integer", "ID"}, level = "Property level"'.
+ * 
+ * @ArnabClassLevel - This annotation is applied at only Class Level. For details, please refer to ArnabClassLevel.java.
+ * At Class Level, the values of the elements of this annotation are assigned as below. Please refer the annotation just above the class.
+ * Like for 'private Integer id', the elements of this annotation are - 'value = "Field - ID"'.
+ * 
+ * @ArnabFieldLevel - This annotation is applied at only Field Level. For details, please refer to ArnabFieldLevel.java.
+ * 
+ * @ArnabConstructorLevel - This annotation is applied at only Constructor Level. For details, please refer to ArnabConstructorLevel.java.
+ * 
+ * @ArnabMethodLevel - This annotation is applied at only Method Level. For details, please refer to ArnabMethodLevel.java.
+ * 
+ * @author Arnab
+ *
+ */
+
 @ArnabClassLevel(classMarker = CustomAnnotationDemo.class, value = "CustomAnnotationDemo class")
 @CustomAnnotation
 public class CustomAnnotationDemo {
