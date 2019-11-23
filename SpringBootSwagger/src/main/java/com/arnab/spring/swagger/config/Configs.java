@@ -33,7 +33,7 @@ public class Configs {
 				"Free to use", 
 				new Contact("Arnab Banerjee", "http://idonthaveawebsite.com", "arnab.ban09@gmail.com"), 
 				"Free to use License", 
-				"Again I don't have a license. So it is free to use.", 
+				"https://www.payasyougo.org", 
 				Collections.emptyList());
 	}
 	
